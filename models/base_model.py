@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ datetime, uuid modules """
 
-from datetime import datatime
+from datetime import datetime
 import uuid
 
