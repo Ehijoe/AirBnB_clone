@@ -11,10 +11,18 @@ DATETIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
 class BaseModel:
     """BaseModel definition"""
 
-    def __init__(self):
-        self.id = uuid.uuid4
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+    def __init__(self, *args, **kwargs):
+        if kwargs:
+            for key, value in kwargs.items():
+                if key in ["created_at", "updated_at"]:
+                    item = datetime.strftime(item, DATETIME_FORMAT)
+
+                if key not in ["__class__"]:
+                    setattr(self, key, item)
+        else:
+            self.id = uuid.uuid4
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """string formatter"""
