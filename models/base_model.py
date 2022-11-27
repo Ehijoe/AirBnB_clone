@@ -15,12 +15,12 @@ class BaseModel:
         if kwargs:
             for key, value in kwargs.items():
                 if key in ["created_at", "updated_at"]:
-                    item = datetime.strftime(item, DATETIME_FORMAT)
+                    value = datetime.strftime(value, DATETIME_FORMAT)
 
                 if key not in ["__class__"]:
-                    setattr(self, key, item)
+                    setattr(self, key, value)
         else:
-            self.id = uuid.uuid4
+            self.id = uuid.uuid4()
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
