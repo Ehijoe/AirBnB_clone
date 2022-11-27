@@ -3,15 +3,9 @@
 
 from json import dump, load
 from os.path import exists
-from models.base_model import BaseModel
-from models.city import City
-from models.state import State
-from models.review import Review
-from models.amenity import Amenity
-from models.place import Place
-from models.user import User
 
-list_of_classes = [BaseModel, User, State, City, Place, Amenity, Review]
+list_of_classes = ["BaseModel", "User", "State", "City",
+                   "Place", "Amenity", "Review"]
 
 class FileStorage:
     """File Storage class definition."""
@@ -48,7 +42,7 @@ class FileStorage:
             dict_obj = load(FileStorage.__file_path)
             for key, value in dict_obj.items():
                 class_name = key.split(".")[0]
-                if class_name in [cls.__name__ for cls in list_of_classes]:
+                if class_name in list_of_classes:
                     FileStorage.__objects[key] = eval(class_name)(**value)
                 else:
                     pass
