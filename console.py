@@ -21,15 +21,15 @@ classes_dict = {
     'Amenity': Amenity,
 }
 
-class HBNBCCommand(cmd.Cmd):
+class HBNBCommand(cmd.Cmd):
     """ hbn command interpreter """
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
 
     def do_EOF(self, args):
         """ end the file """
         return True
-    
-    def do_quite(self, args):
+
+    def do_quit(self, args):
         """ quite the program """
         return True
 
@@ -47,7 +47,7 @@ class HBNBCCommand(cmd.Cmd):
             instance = eval[args]()
             instance.save()
             print(instance.id)
-    
+
     def do_show(self, args):
         """ Prints the string representation of and instance """
         if not (args):
@@ -127,5 +127,6 @@ class HBNBCCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
 
+
 if __name__ == '__main__':
-    HBNBCCommand().cmdloop()
+    HBNBCommand().cmdloop()
