@@ -12,7 +12,7 @@ from models.user import User
 from models import storage
 
 classes_dict = {
-    'Basemodel': BaseModel,
+    'BaseModel': BaseModel,
     'User': User,
     'State': State,
     'Place': Place,
@@ -44,7 +44,7 @@ class HBNBCommand(cmd.Cmd):
         elif args not in classes_dict:
             print("** class don't exist **")
         else:
-            instance = eval[args]()
+            instance = eval(args)()
             instance.save()
             print(instance.id)
 
@@ -62,7 +62,6 @@ class HBNBCommand(cmd.Cmd):
                         print(value)
                         return
                     print("** no instance found **")
-    
 
     def do_destroy(self, args):
         """ Deletes the instance that matched the class id and name """
@@ -82,25 +81,24 @@ class HBNBCommand(cmd.Cmd):
                     del storage.all()[key]
                     storage.save()
             print("** no instance found **")
-    
+
     def do_all(self, args):
         """ Prints all string representation of all instances """
         split_args = shlex.split(args)
         n_list = []
-        dict_jsosn = models.storage.all()
+        dict_json = storage.all()
         if args:
             try:
-                for key in models.storage.all():
+                for key in dict_json:
                     if split_args[0] == key.split('.')[0]:
-                        n_list.append(str(models.storage.all()[key]))
+                        n_list.append(str(dict_json[key]))
                 print(n_list)
             except Exception:
                 print("** class doesn't exist **")
         else:
-            for key in models.storage.all():
-                n_list.append(str(models.stotage.all()))
+            for key in storage.all():
+                n_list.append(str(storage.all()))
             print(n_list)
-
 
     def do_update(self, args):
         """ Update an instance based of the class name and id """
