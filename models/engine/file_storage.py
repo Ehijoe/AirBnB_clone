@@ -1,5 +1,6 @@
 #!/sur/bin/python3
 
+<<<<<<< HEAD
 """ module imported"""
 import json, os, datetime
 from models.base_model import BaseModel
@@ -13,6 +14,18 @@ from models.state import State
 class FileStorage:
     """ FileStoragte class definition """
     __file_path  = "file.json"
+=======
+from json import dump, load
+from os.path import exists
+
+list_of_classes = ["BaseModel", "User", "State", "City",
+                   "Place", "Amenity", "Review"]
+
+class FileStorage:
+    """File Storage class definition."""
+
+    __file_path = "file.json"
+>>>>>>> e7a23115b9afd662faf9ca8896ce8a150767e830
     __objects = {}
 
 
@@ -21,9 +34,20 @@ class FileStorage:
         return self.__objects
 
     def new(self, obj):
+<<<<<<< HEAD
         """ nsets in __object the obj with key """
         self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
     
+=======
+        """
+        sets in  __objects the object with key
+         <class name>.id
+        """
+        class_name = obj.__class__.__name__
+        class_id = class_name + "." + obj.id
+        FileStorage.__objects[class_id] = obj
+
+>>>>>>> e7a23115b9afd662faf9ca8896ce8a150767e830
     def save(self):
         """ save methods """
         # converting python object into dictionary
@@ -35,6 +59,7 @@ class FileStorage:
             json.dump(self.__objects, file)
 
     def reload(self):
+<<<<<<< HEAD
         """ reload method """
         classes = {
             "BaseModel":BaseModel,
@@ -98,3 +123,16 @@ class FileStorage:
             }
         }
         return attributes
+=======
+        """deserializes the JSON file to __objects"""
+        dict_obj = {}
+        FileStorage.__objects = {}
+        if (exists(FileStorage.__file_path)):
+            dict_obj = load(FileStorage.__file_path)
+            for key, value in dict_obj.items():
+                class_name = key.split(".")[0]
+                if class_name in list_of_classes:
+                    FileStorage.__objects[key] = eval(class_name)(**value)
+                else:
+                    pass
+>>>>>>> e7a23115b9afd662faf9ca8896ce8a150767e830
