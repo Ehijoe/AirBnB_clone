@@ -3,15 +3,15 @@
 
 from json import dump, load, dumps
 from os.path import exists
-from models.base_model import BaseModel
-from models.city import City
-from  models.state import State 
-from models.review import Review
-from models.amenity import Amenity
-from models.place import Place
-from models.user import User
+from models import base_model
+from models import city
+from models import state
+from models import review
+from models import amenity
+from models import place
+from models import user
 
-list_of_classes =[BaseModel, User, State, City, Place, Amenity, Review]
+list_of_classes =["BaseModel", "User", "State", "City", "Place", "Amenity", "Review"]
 
 class FileStorage:
     """File Storage class definition"""
@@ -45,11 +45,10 @@ class FileStorage:
         """deserializes the JSON file to __objects"""
         dict_obj = {}
         FileStorage.__objects = {}
-        if (exists(FileStorage.__file_path)):
+        if exists(FileStorage.__file_path):
             for key, value in dict_obj.items():
                 class_name = key.split(".")[0]
                 if class_name in list_of_classes:
                     FileStorage.__objects[key] = eval(class_name)(**value)
                 else:
                     pass
-                
