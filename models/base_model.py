@@ -17,7 +17,7 @@ class BaseModel:
         if kwargs:
             for key, value in kwargs.items():
                 if key in ["created_at", "updated_at"]:
-                    value = datetime.strftime(value, DATETIME_FORMAT)
+                    value = datetime.strptime(value, DATETIME_FORMAT)
 
                 if key not in ["__class__"]:
                     setattr(self, key, value)
@@ -41,8 +41,7 @@ class BaseModel:
         dic = {}
 
         for key, item in self.__dict__.items():
-            if key in ["craeted_at", "updated_at"]:
-                dic[key] = item
+            dic[key] = item
         dic["__class__"] = self.__class__.__name__
         dic["created_at"] = self.created_at.isoformat()
         dic["updated_at"] = self.updated_at.isoformat()

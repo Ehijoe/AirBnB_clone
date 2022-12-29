@@ -13,6 +13,10 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
+    def search(self, id):
+        """Search for an object in the storage."""
+        return self.__objects.get(id)
+
     def all(self):
         """Return the dictionary object."""
         return self.__objects
@@ -29,10 +33,18 @@ class FileStorage:
             tmp_storage = {}
             for k, v in self.__objects.items():
                 tmp_storage[k] = v.to_dict()
-            dump(self.__objects, file)
+            dump(tmp_storage, file)
 
     def reload(self):
         """Deserialize the JSON file to __objects."""
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.state import State
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
+        from models.city import City
+
         dict_obj = {}
         FileStorage.__objects = {}
         if (exists(FileStorage.__file_path)):

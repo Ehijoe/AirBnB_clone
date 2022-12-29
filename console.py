@@ -1,6 +1,7 @@
 #!/usr/bin/python3
-""" imported modules """
-import cmd, shlex
+"""Console interface for AirBnB app."""
+import cmd
+import shlex
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -20,20 +21,24 @@ classes = {
     'Amenity': Amenity,
 }
 
+storage.reload()
+
+
 class HBNBCommand(cmd.Cmd):
-    """ Defines the Interpreter class HBNBCommand """
-    prompt = "hbnb "
-    
-    def do_quit(self):
-        """ Quit command and exit the program """
+    """Defines the Interpreter class HBNBCommand."""
+
+    prompt = "(hbnb) "
+
+    def do_quit(self, args):
+        """Quit command and exit the program."""
         return True
 
     def do_EOF(self, line):
-        """ Exit the program in non-interactive mode """
+        """Exit the program in non-interactive mode."""
         return True
 
     def do_create(self, args):
-        """ create instance of a model """
+        """Create instance of a model."""
         args = shlex.split(args)
         if not (args):
             print("** class name missing **")
@@ -41,27 +46,24 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         elif len(args) == 1:
             temp = eval(args[0])()
+            storage.new(temp)
             temp.save()
+            print(temp.id)
         else:
             print("** Too many arguments for create **")
-    
+
     def do_show(self, args):
-        """ Prints the string representation of and instance """
-        if not args:
-            args = shlex.split(args)
-            if len(args) != 2:
-                print("** instance id missing **")
-            elif args[0] not in classes:
-                print("** class doesn't exits **")
-            else:
-                for key, value in storage.all().items():
-                    if args[1] == value.id:
-                        print(value)
-                        return
-                    print("** no instance found **")
-    
+        """Print the string representation of and instance."""
+        args = shlex.split(args)
+        if args[0] not in classes:
+            print("** class doesn't exits **")
+        elif len(args) != 2:
+            print("** instance id missing **")
+        else:
+            print(str(storage.search(f"{args[0]}.{args[1]}")))
+
     def do_destroy(self, args):
-        """ Deletes the instance that matched the class id and name """
+        """Delete the instance that matched the class id and name."""
         args = shlex.split(args)
         if not args:
             print("** class name missing **")
@@ -75,9 +77,9 @@ class HBNBCommand(cmd.Cmd):
                     del storage.all()[key]
                     storage.save()
             print("** no instance found **")
-    
+
     def do_all(self, args):
-        """ Prints all string representation of all instances """
+        """Print all string representation of all instances."""
         args = shlex.split(args)
         n_list = []
         if args:
@@ -92,9 +94,9 @@ class HBNBCommand(cmd.Cmd):
             for key in storage.all():
                 n_list.append(str(storage.all()))
             print(n_list)
-    
+
     def do_update(self, args):
-        """ Update an instance based of the class name and id """
+        """Update an instance based of the class name and id."""
         args = args.split()
         if len(args) == 0:
             print("** class name missing **")
@@ -117,7 +119,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** instance doesn't exist **")
         else:
             print("** class doesn't exist **")
-        
+
+
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
- 
