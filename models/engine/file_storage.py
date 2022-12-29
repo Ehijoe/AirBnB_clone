@@ -1,10 +1,11 @@
-#!/sur/bin/python3
-
+#!/usr/bin/python3
+"""File storage module."""
 from json import dump, load
 from os.path import exists
 
 list_of_classes = ["BaseModel", "User", "State", "City",
                    "Place", "Amenity", "Review"]
+
 
 class FileStorage:
     """File Storage class definition."""
@@ -12,17 +13,16 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-
     def all(self):
-        """ retrun the dictionary object """
+        """Return the dictionary object."""
         return self.__objects
 
     def new(self, obj):
-        """ nsets in __object the obj with key """
+        """Set in __object the obj with key."""
         self.__objects["{}.{}".format(obj.__class__.__name__, obj.id)] = obj
 
     def save(self):
-        """ save methods """
+        """Save objects to json file."""
         # converting python object into dictionary
         # writing to json
         with open(self.__file_path, mode="w", encoding="utf-8") as file:
@@ -32,7 +32,7 @@ class FileStorage:
             dump(self.__objects, file)
 
     def reload(self):
-        """deserializes the JSON file to __objects"""
+        """Deserialize the JSON file to __objects."""
         dict_obj = {}
         FileStorage.__objects = {}
         if (exists(FileStorage.__file_path)):
