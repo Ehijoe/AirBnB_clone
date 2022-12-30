@@ -12,7 +12,7 @@ from models.review import Review
 from models.city import City
 
 classes = {
-    'Basemodel': BaseModel,
+    'BaseModel': BaseModel,
     'User': User,
     'State': State,
     'Place': Place,
@@ -60,7 +60,11 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) != 2:
             print("** instance id missing **")
         else:
-            print(str(storage.search(f"{args[0]}.{args[1]}")))
+            obj = storage.search(f"{args[0]}.{args[1]}")
+            if obj is None:
+                print("** no instance found **")
+            else:
+                print(obj)
 
     def do_destroy(self, args):
         """Delete the instance that matched the class id and name."""
@@ -72,24 +76,22 @@ class HBNBCommand(cmd.Cmd):
         elif args[0] not in classes:
             print("** class doesn't exist **")
         else:
-            for key, value in storage.all().items():
-                if args[1] == value.id:
-                    del storage.all()[key]
-                    storage.save()
-            print("** no instance found **")
+            if not storage.remove(f"{args[0]}.{args[1]}"):
+                print("** no instance found **")
+            storage.save()
 
     def do_all(self, args):
         """Print all string representation of all instances."""
         args = shlex.split(args)
         n_list = []
         if args:
-            try:
-                for key in storage.all():
-                    if args[0] == key.split('.')[0]:
-                        n_list.append(str(storage.all()[key]))
-                print(n_list)
-            except ModuleNotFoundError:
+            if args[0] not in classes:
                 print("** class doesn't exist **")
+                return False
+            for key in storage.all():
+                if args[0] == key.split('.')[0]:
+                    n_list.append(str(storage.all()[key]))
+            print(n_list)
         else:
             for key in storage.all():
                 n_list.append(str(storage.all()))

@@ -3,9 +3,6 @@
 from json import dump, load
 from os.path import exists
 
-list_of_classes = ["BaseModel", "User", "State", "City",
-                   "Place", "Amenity", "Review"]
-
 
 class FileStorage:
     """File Storage class definition."""
@@ -13,9 +10,16 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    def search(self, id):
+    def remove(self, key):
+        """Remove an object from the storage."""
+        if key in self.__objects:
+            del self.__objects[key]
+            return True
+        return False
+
+    def search(self, key):
         """Search for an object in the storage."""
-        return self.__objects.get(id)
+        return self.__objects.get(key)
 
     def all(self):
         """Return the dictionary object."""
@@ -45,6 +49,8 @@ class FileStorage:
         from models.review import Review
         from models.city import City
 
+        list_of_classes = [BaseModel, User, State,
+                           Amenity, Place, Review, City]
         dict_obj = {}
         FileStorage.__objects = {}
         if (exists(FileStorage.__file_path)):
@@ -52,7 +58,7 @@ class FileStorage:
                 dict_obj = load(json_file)
             for key, value in dict_obj.items():
                 class_name = key.split(".")[0]
-                if class_name in list_of_classes:
+                if class_name in [cls.__name__ for cls in list_of_classes]:
                     FileStorage.__objects[key] = eval(class_name)(**value)
                 else:
                     pass
