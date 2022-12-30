@@ -96,7 +96,7 @@ class HBNBCommand(cmd.Cmd):
             print(n_list)
         else:
             for key in storage.all():
-                n_list.append(str(storage.all()))
+                n_list.append(str(storage.all()[key]))
             print(n_list)
 
     def do_update(self, args):
