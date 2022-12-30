@@ -55,8 +55,10 @@ class HBNBCommand(cmd.Cmd):
     def do_show(self, args):
         """Print the string representation of and instance."""
         args = shlex.split(args)
-        if args[0] not in classes:
-            print("** class doesn't exits **")
+        if len(args) == 0:
+            print("** class name missing **")
+        elif args[0] not in classes:
+            print("** class doesn't exist **")
         elif len(args) != 2:
             print("** instance id missing **")
         else:
@@ -118,7 +120,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     print("** no instance found **")
             else:
-                print("** instance doesn't exist **")
+                print("** instance id missing **")
         else:
             print("** class doesn't exist **")
 
