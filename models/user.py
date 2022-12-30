@@ -1,11 +1,17 @@
 #!/usr/bin/python3
-""" base_model import """
+"""Model for Users."""
 
 from models.base_model import BaseModel
 
+
 class User(BaseModel):
-    """ User class defination """
-    email = ""
-    password = ""
-    first_name = ""
-    last_name = ""
+    """User class definition."""
+
+    def __init__(self, *args, **kwargs):
+        """Initialize the User."""
+        super().__init__(*args, **kwargs)
+        if not kwargs:
+            self.email = ""
+            self.password = ""
+            self.first_name = ""
+            self.last_name = ""
