@@ -1,10 +1,12 @@
 #!/usr/bin/python3
-""" base_model import """
+"""base_model import."""
 
 from models.base_model import BaseModel
 
+
 class Place(BaseModel):
-    """ Place class definition """
+    """Place class definition."""
+
     city_id = ""
     user_id = ""
     name = ""
@@ -16,4 +18,3 @@ class Place(BaseModel):
     latitude = 0.0
     longitude = 0.0
     amenity_ids = []
-    
